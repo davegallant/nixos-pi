@@ -11,6 +11,8 @@ jobs:
 
       - uses: cachix/install-nix-action@v13
         with:
+          # Pin because the latest all-hardware profile changes
+          # https://github.com/NixOS/nixpkgs/pull/128532
           nix_path: nixpkgs=https://github.com/NixOS/nixpkgs/archive/c23146505c35a07bafbecf36af4f9ebde2bb7dfd.tar.gz
           extra_nix_config: |
             extra-platforms = aarch64-linux
