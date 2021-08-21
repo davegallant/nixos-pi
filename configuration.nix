@@ -1,7 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  changedetectionDir = "/var/lib/changedetection.io/";
-in
 {
 
   imports = [
@@ -26,7 +23,6 @@ in
     bat
     bind
     curl
-    changedetection.io
     docker
     exa
     git
@@ -40,12 +36,19 @@ in
     python3
     ripgrep
     starship
+    tailscale
     zip
   ];
 
   nixpkgs.overlays = [ (import ./overlays) ];
 
-  services.openssh = { enable = true; };
+  # SSH should be disabled after tailscale is enabled!
+  services.openssh = {
+    enable = true;
+    extraConfig = ''
+      PermitEmptyPasswords yes
+    '';
+  };
 
   services.adguardhome = {
     enable = true;
@@ -53,18 +56,7 @@ in
     port = 3000;
   };
 
-  systemd.services.changedetection = {
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    preStart = ''
-      mkdir -p ${changedetectionDir}/datastore
-    '';
-    serviceConfig = {
-      Type = "forking";
-      ExecStart = "${pkgs.changedetection.io}/bin/changedetection.py -d ${changedetectionDir}/datastore";
-      Restart = "on-failure";
-    };
-  };
+  services.tailscale = { enable = true; };
 
   programs.zsh = {
     enable = true;
@@ -74,16 +66,12 @@ in
     };
   };
 
-  virtualisation.docker.enable = true;
-
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 
-      80 
-      3000 # Adguard UI
-      5000 # Changedeteciton.io
+    allowedUDPPorts = [
+      53     # Adguard DNS
+      41641  # Tailscale tunnel
     ];
-    allowedUDPPorts = [ 53 ]; # Adguard DNS
   };
 
   # WiFi
@@ -110,9 +98,6 @@ in
       extraGroups = [ "wheel" "docker" ];
     };
   };
-  users.extraUsers.nixos.openssh.authorizedKeys.keys = [
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlUwUlnO16Uk1+xGXaYp+XknQKdLyoIqxPHn9PNmAefhaU7HbzN3lHo+oYdCycG5PGo2gyHWud0KwiZZTC4mKUCH6rK4kpcOCIAOLRPX3SPxe9Fmgfm4HJHQot9m6Atc/BsLsF7B3n7jgp2FHFueZttUTPsJFd/5a5XZWKjfJh2E4SBMewVN8STVC3B0XLm+/WHOY5WSz3YknWD+6BRsyyOS/ogN2RuqvwPOC+zfRBrFgB0usna1KP91o79qSqMg/BGc4FK5ZSRFe8eHKVix9MQSkCk50RmyiUbVK+fxbkyKyMYwhSNBrZLfWM7kJN+UuK6Jo4jAweN82b6yO/PMzn dave@hephaestus"
-  ];
 
   system.stateVersion = "unstable";
   system.autoUpgrade.channel = "https://nixos.org/channels/nixos-unstable";

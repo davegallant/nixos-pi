@@ -4,6 +4,10 @@
 
 This repo contains configuration for creating an NixOS image that runs on a Raspberry Pi.
 
+It contains the following services:
+  - [AdGuardHome](https://github.com/AdguardTeam/AdGuardHome)
+  - [Tailscale](https://tailscale.com/)
+
 ## Installation
 
 ### Github Actions
