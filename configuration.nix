@@ -1,4 +1,8 @@
 { config, lib, pkgs, ... }:
+let
+  netdataConf = ./netdata.conf;
+  netdataDir = "/var/lib/netdata";
+in
 {
 
   imports = [
@@ -30,6 +34,7 @@
     htop
     iptables
     neovim
+    netdata
     openvpn
     pfetch
     procs
@@ -98,6 +103,34 @@
       extraGroups = [ "wheel" "docker" ];
     };
   };
+
+  systemd.services.netdata = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    preStart = ''
+      mkdir -p ${netdataDir}/config
+      mkdir -p ${netdataDir}/logs
+      cp -r ${pkgs.netdata}/share/netdata/web ${netdataDir}/web
+      chmod -R 700 ${netdataDir}
+      chown -R nixos:nixos ${netdataDir}
+    '';
+    serviceConfig = {
+      Type = "forking";
+      ExecStart = "${pkgs.netdata}/bin/netdata -c ${netdataConf} -u nixos";
+      Restart = "on-failure";
+    };
+  };
+
+  services.nginx.httpConfig = ''
+    server {
+      server_name netdata.thume.net;
+      location / {
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass http://127.0.0.1:19999;
+      }
+    }
+  '';
 
   system.stateVersion = "unstable";
   system.autoUpgrade.channel = "https://nixos.org/channels/nixos-unstable";

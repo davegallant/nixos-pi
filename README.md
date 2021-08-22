@@ -7,6 +7,7 @@ This repo contains configuration for creating an NixOS image that runs on a Rasp
 It contains the following services:
   - [AdGuardHome](https://github.com/AdguardTeam/AdGuardHome)
   - [Tailscale](https://tailscale.com/)
+  - [netdata](https://github.com/netdata/netdata)
 
 ## Installation
 
