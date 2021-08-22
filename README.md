@@ -9,6 +9,10 @@ It contains the following services:
   - [Tailscale](https://tailscale.com/)
   - [netdata](https://github.com/netdata/netdata)
 
+## Motivation
+
+SD cards are not the most reliable form of storage, especially when they are operating non-stop. Because of this, I wanted a simple way to build a reproducible OS image that will run on a [Raspberry Pi](https://www.raspberrypi.org/).
+
 ## Installation
 
 ### Github Actions
