@@ -47,13 +47,7 @@ in
 
   nixpkgs.overlays = [ (import ./overlays) ];
 
-  # SSH should be disabled after tailscale is enabled!
-  services.openssh = {
-    enable = true;
-    extraConfig = ''
-      PermitEmptyPasswords yes
-    '';
-  };
+  services.openssh.enable = true;
 
   services.adguardhome = {
     enable = true;
@@ -75,7 +69,12 @@ in
     enable = true;
     allowedUDPPorts = [
       53     # Adguard DNS
-      41641  # Tailscale tunnel
+      41641  # Tailscale
+    ];
+    allowedTCPPorts = [
+      80     # Adguard webui
+      3000   # Adguard webui setup
+      19999  # netdata webui
     ];
   };
 
@@ -97,12 +96,13 @@ in
   };
   users.users = {
     nixos = {
-      uid = 1000;
+      extraGroups = [ "wheel" "docker" ];
+      group = "nixos";
       home = "/home/nixos";
       name = "nixos";
-      group = "nixos";
+      password = "nixos"; # change this on first login
       shell = pkgs.zsh;
-      extraGroups = [ "wheel" "docker" ];
+      uid = 1000;
     };
   };
 

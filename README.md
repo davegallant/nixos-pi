@@ -36,6 +36,10 @@ unzstd nixos-sd-image-21.05pre-git-aarch64-linux.img.zst
 
 The image can be flashed using the [Raspberry Pi Imager](https://www.raspberrypi.org/blog/raspberry-pi-imager-imaging-utility/) or a simpler tool such as [dd](https://man7.org/linux/man-pages/man1/dd.1.html).
 
+### SSH
+
+The default user/password is `nixos/nixos` with SSH enabled. Either change the password on initial login, or enable an authorized key and disable the password.
+
 ## Addtional Resources
 
 - [NixOS on ARM](https://nixos.wiki/wiki/NixOS_on_ARM#Installation)
