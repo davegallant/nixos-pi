@@ -79,6 +79,8 @@ in
     ];
   };
 
+  networking.hostName = "nixos-pi";
+
   # WiFi
   hardware = {
     enableRedistributableFirmware = true;

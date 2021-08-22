@@ -11,7 +11,9 @@ It contains the following services:
 
 ## Motivation
 
-SD cards are not the most reliable form of storage, especially when they are operating non-stop. Because of this, I wanted a simple way to build a reproducible OS image that will run on a [Raspberry Pi](https://www.raspberrypi.org/).
+Because [Reproducible Builds](https://reproducible-builds.org/) matter.
+
+And also, SD cards are not the most reliable form of storage, especially when they are operating non-stop. Because of this, I wanted a simple way to build a reproducible OS image that will run on a [Raspberry Pi](https://www.raspberrypi.org/).
 
 ## Installation
 
@@ -23,7 +25,7 @@ When the build finishes, there will be an artifact named `sd-image.img.zip`.
 
 ### Extract
 
-This archive can be decompressed and the image can flashed on an SD card and used to boot up the OS:
+This archive can be decompressed and the image can flashed on an SD card and used to boot up the OS.
 
 ```bash
 unzip sd-image.img.zip
