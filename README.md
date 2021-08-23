@@ -2,6 +2,8 @@
 
 [![Build OS Image](https://github.com/davegallant/nixos-pi/actions/workflows/build-sd-image.yaml/badge.svg)](https://github.com/davegallant/nixos-pi/actions/workflows/build-sd-image.yaml)
 
+> :warning: The GitHub actions build is currently pinned to an outdated version of nixpkgs because of [this](https://github.com/NixOS/nixpkgs/pull/128532) issue
+
 This repo contains configuration for creating an NixOS image that runs on a Raspberry Pi.
 
 It contains the following services:
