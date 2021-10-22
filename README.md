@@ -40,6 +40,7 @@ The image can be flashed using the [Raspberry Pi Imager](https://www.raspberrypi
 
 ### SSH
 
+
 The default user/password is `nixos/nixos` with SSH enabled. Either change the password on initial login, or enable an authorized key and disable the password.
 
 ## Addtional Resources
